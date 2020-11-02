@@ -6,6 +6,7 @@
 #### Dependencies:
 ```console
 pip install numpy
+pip install imutils
 pip install opencv-python
 pip install paramiko
 ```
