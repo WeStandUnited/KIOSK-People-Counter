@@ -8,6 +8,7 @@
 pip install numpy
 pip install picamera
 pip install imutils
+pip install face-recognition
 pip install opencv-python
 pip install paramiko
 ```
