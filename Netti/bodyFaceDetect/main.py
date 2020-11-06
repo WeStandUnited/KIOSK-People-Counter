@@ -1,9 +1,12 @@
 import cv2
+import csv
 import numpy as np
 import face_recognition
 import os
 import glob
 import datetime
+import random
+
 
 def greeting():
     currentTime = datetime.datetime.now()
@@ -14,6 +17,36 @@ def greeting():
         return 'Good Afternoon, '
     else:
         return 'Good Evening, '
+
+
+def generate_new_pin():
+    """
+    Generate a new pin by finding a random number between 10000->99999
+    While checking pin.csv to make sure it hasn't already been used
+    """
+    new_pin = random.randint(10000, 99999)
+    file = os.path.join(os.getcwd(), 'data/pins/pins.csv')
+    with open(file, 'r') as r_file:
+        reader = csv.reader(r_file)
+        for row in reader:
+            for pin in row:
+                if str(new_pin) == pin:
+                    new_pin = generate_new_pin()
+                break
+    r_file.close()
+    return new_pin
+
+
+def write_pin_to_csv(new_pin):
+    """
+    Given a unique pin, add it to the csv
+    """
+    file = os.path.join(os.getcwd(), 'data/pins/pins.csv')
+    with open(file, 'a', newline='') as w_file:
+        writer = csv.writer(w_file)
+        writer.writerow([new_pin])
+
+    w_file.close()
 
 
 def main():
@@ -114,7 +147,7 @@ def main():
         cv2.imshow('Video', frame)
         # Hit 'q' on the keyboard to quit!
         if cv2.waitKey(1) & 0xFF == ord('q'):
-          break
+            break
 
     # free up memory
     video_capture.release()
