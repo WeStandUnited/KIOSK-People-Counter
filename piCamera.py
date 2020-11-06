@@ -21,6 +21,7 @@ def detectPerson():
     while cap.isOpened():
 
         ret, frame = cap.read()
+        #frame = cv2.rotate(frame, cv2.ROTATE_180)
 
         if ret:
 
