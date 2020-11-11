@@ -3,12 +3,12 @@
     <head> 
         <meta charset="utf-8" />
         <title> Kiosk People Tracker </title>
-        <link href="styles.css" rel="stylesheet">
+        <!--<link href="styles.css" rel="stylesheet">-->
         <img src="images.jpeg" style="width: 200px; height: 200px; position: absolute; top: 0px; right: 0px">  
     </head> 
 
     <body bgcolor="Green" text="yellow">
-        <script src="scripts.js"></script>
+        <!--<script src="scripts.js"></script>-->
 
         <div id="header" class="block">
             <h1>Facial Recognition Registration</h1>
@@ -16,24 +16,19 @@
             
             <div id="content" class"block" style="text-align: center">
                 <p style="margin-left: 25%; max-width: 50%">
-                    Enter your pin you received from the Kiosk: 
-                    <br />
-                    <input type="text" pin="">                 
+                    Click 'Upload Image' to select a photo of you to be used for our Kiosk system: 
                     <br />
                     <br />
-                    <input type="submit" name="enter" id="enter" value="Enter"><br>
-                    <br />
-                    <br />
-                    The image below will change to your photo you took at the Kiosk
-                    once you click the 'Enter' button above.
-                    <img src="image2.jpeg" style="width: 600px; height: 600px">
-                    <br />
-                    Is this you?
-                    <br />
-                    <input type="submit" name="answer" id="yes" value="Yes">
-                    <input type="submit" name="answer" id="no" value="No">
-                    <br />
-                    <br />
+                    <p><input type="file"  accept="image/*" name="image" id="file"  onchange="loadFile(event)" style="display: none;"></p>
+                    <p><label for="file" style="cursor: pointer;">Upload Image</label></p>
+                    <p><img id="output" width="200" /></p>
+
+                    <script>
+                        var loadFile = function(event) {
+	                    var image = document.getElementById('output');
+                        image.src = URL.createObjectURL(event.target.files[0]);
+                    };
+                    </script>
                     Enter your name for this photo: 
                     <input type="text" name=""> 
                     <br />
