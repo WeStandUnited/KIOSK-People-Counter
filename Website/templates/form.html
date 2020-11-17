@@ -2,11 +2,12 @@
 <head>
     <meta charset="utf-8" />
     <title > People Counter Kiosk </title>
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
 </head>
 <body bgcolor="235937" text="FFCC33">
 
 <div id="header" class="block" style="background-color: #ffffff ">
-    <img src="images.jpeg" style=" display: block; margin-left: auto; margin-right: auto;">
+    <img src="{{url_for('static', filename= 'logo.jpeg')}}" style=" display: block; margin-left: auto; margin-right: auto;">
     <h1 style="text-align:center;margin-right: auto;margin-left: auto;">Welcome to SUNY Oswego's People Counter Kiosk @ Shinemin Hall!</h1>
     <br />
 </div>

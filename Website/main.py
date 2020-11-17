@@ -20,7 +20,8 @@ def sendFile(pin,username,host):
         scp.put(pin+".jpeg", '/home/'+username+'/csc380/'+pin+".jpeg")# second parameter is what the name of the sent file is
 
 def getPins():
-    with open('/home/cj/PycharmProjects/ImageTransporter/KIOSK-People-Counter/pin.csv', newline='') as f:
+    path = os.path.abspath('pin.csv')
+    with open(path, newline='') as f:
         reader = csv.reader(f)
         data = list(reader)
 
@@ -29,6 +30,8 @@ def getPins():
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'Thisisasecret!'
+
+
 class PinForm(FlaskForm):
 
     pin = StringField('Pin:')
@@ -39,14 +42,19 @@ def upload_file():
    if request.method == 'POST':
 
       return 'file uploaded successfully'
+
+
 @app.route('/error')
 def error():
-   return render_template('error.html')
+    return render_template('error.html')
+
+@app.route('/about.html')
+def about():
+    return render_template('about.html')
 
 @app.route('/', methods=['GET', 'POST'])
 def form():
     form = PinForm()
-
 
     if request.method == 'POST':
         if form.pin.data in getPins():
@@ -57,7 +65,6 @@ def form():
             return '<h1>Hello {}. you have been added!'.format(form.pin.data)
         else:
             return redirect('/error')#<h1>Error {}. not valid'.format(form.pin.data)
-
 
     return render_template('form.html', form=form)
 
