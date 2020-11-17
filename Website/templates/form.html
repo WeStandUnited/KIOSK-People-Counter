@@ -1,0 +1,54 @@
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title > People Counter Kiosk </title>
+</head>
+<body bgcolor="235937" text="FFCC33">
+
+<div id="header" class="block" style="background-color: #ffffff ">
+    <img src="images.jpeg" style=" display: block; margin-left: auto; margin-right: auto;">
+    <h1 style="text-align:center;margin-right: auto;margin-left: auto;">Welcome to SUNY Oswego's People Counter Kiosk @ Shinemin Hall!</h1>
+    <br />
+</div>
+
+<div id="content" class="block" style="text-align: center">
+    <br />
+    <h2 style="text-align:center;text-decoration: underline;">Facial Recognition Registration</h2>
+    <p style="margin-right: auto;margin-left: auto; max-width: 50%;">
+        If you would like to register your face for our facial recognition feature, please click 'Upload Image' and enter your name below!
+        <br />
+        <br />
+        <p><input type="file"  accept="image/*" name="file" id="file"  onchange="loadFile(event)" style="display: none;"></p>
+        <p><label for="file" style="cursor: pointer;text-decoration: underline;">Upload Image</label></p>
+        <p><img id="output" width="200" /></p>
+        <script>
+            var loadFile = function(event) {
+            var image = document.getElementById('output');
+            image.src = URL.createObjectURL(event.target.files[0]);
+        };
+        </script>
+    </p>
+
+    <form method="POST" action="{{ url_for('form') }}" enctype = "multipart/form-data">
+        {{ form.csrf_token }}
+        {{ form.pin.label }}
+        {{ form.pin }}
+        <ul>
+        {% for error in form.pin.errors %}
+            <li style="color:red;">{{ error }}</li>
+        {% endfor %}
+        </ul>
+        {{ form.csrf_token }}
+        {{ form.name.label }}
+        {{ form.name }}
+        <br />
+        <br />
+        <input type="submit" value="Submit">
+        <footer>
+            <br />
+            <p>To learn more visit our <a href="about.html">About Page</a> here!</p>
+        </footer>
+        </form>
+</div>
+</body>
+</html>
