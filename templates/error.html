@@ -3,15 +3,16 @@
 <head>
     <meta charset="utf-8" />
     <title>Error</title>
-    <img src="images.jpeg" style="width: 200px; height: 200px; position: absolute; top: 0px; right: 0px">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
 </head>
-<body bgcolor="Green" text="yellow">
+
+<body bgcolor="235937" text="FFCC33">
 
 	<div id="header" class="block">
-    <h1>Error:</h1>
+    <h1 style="text-align: center">Error:</h1>
     </div>
 
-    <div id="content" class"block" style="text-align: center">
+    <div id="content" class="block" style="text-align: center">
         <p style="margin-left: 25%; max-width: 50%">
             The pin you have entered was either incorrect, invalid or was indicated to be the wrong photo.
             To get a new pin, please report to the KIOSK and get another picture taken the old one if remaining will
@@ -19,8 +20,7 @@
             otherwise press the 'Close' button close the site.<br />
         </p>
         <p>
-            <button onclick="window.location.href='index.html'">Back</button>
-            <button onclick="self.close()">Close</button>
+            <button onclick="window.location.href='/'">Back</button>
         </p>
     </div>
 </body>

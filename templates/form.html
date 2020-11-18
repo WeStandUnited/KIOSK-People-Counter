@@ -1,24 +1,37 @@
 <html>
 <head>
-<title>Form!</title>
+    <meta charset="utf-8" />
+    <title > People Counter Kiosk </title>
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
 </head>
-<body>
-<h1>Our form will be here!</h1>
-<form method="POST" action="{{ url_for('form') }}" enctype = "multipart/form-data">
-    {{ form.csrf_token }}
-    {{ form.pin.label }}
-    {{ form.pin }}
-    <ul>
-    {% for error in form.pin.errors %}
-        <li style="color:red;">{{ error }}</li>
-    {% endfor %}
-    </ul>
-    {{ form.csrf_token }}
-    {{ form.name.label }}
-    {{ form.name }}
-    <input type = "file" name = "file" />
+<body bgcolor="235937" text="FFCC33">
 
-    <input type="submit" value="Submit">
-</form>
+<div id="header" class="block" style="background-color: #ffffff ">
+    <img src="{{url_for('static', filename= 'logo.jpeg')}}" style=" display: block; margin-left: auto; margin-right: auto;">
+    <h1 style="text-align:center;margin-right: auto;margin-left: auto;">Welcome to SUNY Oswego's People Counter Kiosk @ Shinemin Hall!</h1>
+    <br />
+</div>
+
+<div id="content" class="block" style="text-align: center">
+    <br />
+    <h2 style="text-align:center;text-decoration: underline;">Facial Recognition Registration</h2>
+
+
+    <form method="POST" action="{{ url_for('form') }}" enctype = "multipart/form-data">
+        {{ form.csrf_token }}
+        {{ form.name.label }}
+        {{ form.name }}
+
+        <br />
+        <br />
+        <input type = "file" name = "file" />
+       <input type="submit" value="Submit">
+
+        <footer>
+            <br />
+            <p>To learn more visit our <a href="/aboutus">About Page</a> here!</p>
+        </footer>
+        </form>
+</div>
 </body>
 </html>
