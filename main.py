@@ -7,9 +7,15 @@ from paramiko import SSHClient
 from scp import SCPClient
 import os
 import random
+from PIL import Image
+from waitress import serve
 
-PHOTO_STAGING_DIRECTORY = "/home/cj/PycharmProjects/ImageTransporter/KIOSK-People-Counter/Photos/"
-CSV_DIRECTORY = '/home/cj/PycharmProjects/ImageTransporter/KIOSK-People-Counter/pin.csv'
+
+#PHOTO_DIRECTORY = "/home/cj/PycharmProjects/ImageTransporter/KIOSK-People-Counter/Photos/"
+#CSV_DIRECTORY = '/home/cj/PycharmProjects/ImageTransporter/KIOSK-People-Counter/pin.csv'
+PHOTO_DIRECTORY ="/home/cchiass2/KIOSK-Peolple-Counter/Photos/"
+CSV_DIRECTORY ="/home/cchiass2/KIOSK-Peolple-Counter/pin.csv"
+
 
 def generate_new_pin():
     """
@@ -51,7 +57,7 @@ def sendFile(pin,username,host,file):
 
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = 'Thisisasecret!'
+app.config['SECRET_KEY'] = '*XM_!-9a=S*Ta$9Xq?h8@YNks4Ye#GHK9GNWa8*49Xdd3SnnunUrUEd?=M$5k3yXk-%Tg73y-?jr!z436*cWzNzguA%bm3Qb-kh4!'
 class PinForm(FlaskForm):
 
     name = StringField('Name:')
@@ -60,11 +66,13 @@ class PinForm(FlaskForm):
 def error():
    return render_template('error.html')
 
-
 @app.route('/registered')
 def registered():
    return render_template('registered.html')
 
+@app.route('/aboutus')
+def aboutus():
+   return render_template('about.html')
 
 @app.route('/', methods=['GET', 'POST'])
 def form():
@@ -72,14 +80,21 @@ def form():
 
     if request.method == 'POST' and request.form['name'] is not '' and request.files['file'].filename is not '':
             f = request.files['file']
+            print(f.filename)
+            print(f.filename.split("."))
             new_pin = str(generate_new_pin())
             write_pin_to_csv(new_pin)
-            imagename = new_pin+form.name.data+".jpg"#TODO get working with png,jpeg ,and jpg
-            f.save(PHOTO_STAGING_DIRECTORY+secure_filename(imagename))
-           # sendFile(PHOTO_STAGING_DIRECTORY+imagename,'cchiass2','pi.cs.oswego.edu',imagename)
+            file_ext = f.filename.split(".")[1]
+            imagename = new_pin+form.name.data+"."+file_ext#TODO get working with png,jpeg ,and jpg
+            f.save(PHOTO_DIRECTORY+secure_filename(imagename))
+            if (file_ext is ".jpeg" or ".jpg"):
+                im1 = Image.open(PHOTO_DIRECTORY+"/"+imagename)
+                im1.save(PHOTO_DIRECTORY+imagename.split(".")[0]+".png")
+                os.remove(PHOTO_DIRECTORY+imagename)
             return redirect('/registered')
 
 
     return render_template('form.html', form=form)
 if __name__ == '__main__':
     app.run(debug=True)
+    #serve(app,host='pi.cs.oswego.edu',port=2770,url_scheme='http')
