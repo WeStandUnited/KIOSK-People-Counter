@@ -38,51 +38,47 @@ def daily_update():
 def dailyEmail():
     now = datetime.datetime.now()
 
-    #if now.hour == 20 and now.minute == 00 and now.second == 00:
-    # create  daily update file
-    daily_update()
+    if now.hour == 20 and now.minute == 00 and now.second == 00:
+        # create  daily update file
+        daily_update()
 
-    # read credentials from file
-    filepath = 'credentials.txt'
-    with open(filepath) as fp:
-        username = fp.readline()
-        password = fp.readline()
+        # read credentials from file
+        filepath = 'credentials.txt'
+        with open(filepath) as fp:
+            username = fp.readline()
+            password = fp.readline()
 
-    # variables for the email
-    sender = username
+        # variables for the email
+        sender = username
 
-    #enter your email here
-    receiver = 'someone@example.com'
+        #enter your email here
+        receiver = 'someone@example.com'
 
-    subject = 'People Counter Daily Report'
-    body = 'Here is the daily report for the Kiosk Counter in Shineman'
+        subject = 'People Counter Daily Report'
+        body = 'Here is the daily report for the Kiosk Counter in Shineman'
 
-    filepath2 = 'daily_update.html'
-    msg = MIMEMultipart()
-    msg['Subject'] = subject
-    msg['From'] = sender
-    msg['To'] = receiver
-    msg.attach(MIMEText(body, 'plain'))
-    attachment = open(filepath2, 'rb')
+        filepath2 = 'daily_update.html'
+        msg = MIMEMultipart()
+        msg['Subject'] = subject
+        msg['From'] = sender
+        msg['To'] = receiver
+        msg.attach(MIMEText(body, 'plain'))
+        attachment = open(filepath2, 'rb')
 
-    part = MIMEBase('application', 'octet-stream')
-    part.set_payload(attachment.read())
-    encoders.encode_base64(part)
-    part.add_header('Content-Disposition', "attachment; filename= " + filepath2)
-    msg.attach(part)
-    text = msg.as_string()
+        part = MIMEBase('application', 'octet-stream')
+        part.set_payload(attachment.read())
+        encoders.encode_base64(part)
+        part.add_header('Content-Disposition', "attachment; filename= " + filepath2)
+        msg.attach(part)
+        text = msg.as_string()
 
-    # sending email
-    with smtplib.SMTP('smtp.gmail.com', 587) as smtp:
-        smtp.connect("smtp.gmail.com", 587)
-        smtp.ehlo()
-        smtp.starttls()
-        smtp.ehlo()
-        smtp.login(sender, password)
-        smtp.sendmail(sender, receiver, text)
-
-
-
-
+        # sending email
+        with smtplib.SMTP('smtp.gmail.com', 587) as smtp:
+            smtp.connect("smtp.gmail.com", 587)
+            smtp.ehlo()
+            smtp.starttls()
+            smtp.ehlo()
+            smtp.login(sender, password)
+            smtp.sendmail(sender, receiver, text)
 
 dailyEmail()
