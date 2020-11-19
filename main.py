@@ -13,8 +13,8 @@ from waitress import serve
 
 #PHOTO_DIRECTORY = "/home/cj/PycharmProjects/ImageTransporter/KIOSK-People-Counter/Photos/"
 #CSV_DIRECTORY = '/home/cj/PycharmProjects/ImageTransporter/KIOSK-People-Counter/pin.csv'
-PHOTO_DIRECTORY ="/home/cchiass2/KIOSK-Peolple-Counter/Photos/"
-CSV_DIRECTORY ="/home/cchiass2/KIOSK-Peolple-Counter/pin.csv"
+PHOTO_DIRECTORY ="/home/cchiass2/KIOSK-People-Counter/Photos/"
+CSV_DIRECTORY ="/home/cchiass2/KIOSK-People-Counter/pin.csv"
 
 
 def generate_new_pin():
@@ -45,14 +45,6 @@ def write_pin_to_csv(new_pin):
         writer.writerow([new_pin])
 
     w_file.close()
-
-def sendFile(pin,username,host,file):
-    ssh = SSHClient()
-    ssh.load_host_keys(os.path.expanduser(os.path.join("~", ".ssh", "known_hosts")))
-    ssh.connect(host, username=username)
-    with SCPClient(ssh.get_transport()) as scp:
-        scp.put(pin, '/home/'+username+'/csc380/'+file)# second parameter is what the name of the sent file is
-
 
 
 
@@ -96,5 +88,5 @@ def form():
 
     return render_template('form.html', form=form)
 if __name__ == '__main__':
-    app.run(debug=True)
-    #serve(app,host='pi.cs.oswego.edu',port=2770,url_scheme='http')
+    #app.run(debug=True)
+    serve(app,host='pi.cs.oswego.edu',port=2770,url_scheme='http')
