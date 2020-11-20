@@ -220,6 +220,8 @@ def main():
                     time = video_name.split(':')
                     hour = time[0]
                     # Add the count
+                    print("People Entered: {}".format(peopleEntered))
+                    print("People Left: {}".format(peopleLeft))
                     countArray.append('{}:{}'.format(hour, peopleEntered))
                     countArray.append('{}:{}'.format(hour, peopleLeft * -1))
                     capture.release()
@@ -232,6 +234,8 @@ def main():
                 video_index = video_index + 1
                 time = video_name.split(':')
                 hour = time[0]
+                print("People Entered: {}".format(peopleEntered))
+                print("People Left: {}".format(peopleLeft))
                 countArray.append('{}:{}'.format(hour, peopleEntered))
                 countArray.append('{}:{}'.format(hour, peopleLeft * -1))
                 capture.release()
@@ -253,8 +257,6 @@ if __name__ == '__main__':
         number_of_files = len(list_of_files)
         
         if number_of_files > previous_number_of_files: 
-            print(number_of_files)
-            print(previous_number_of_files)
             main()
             
         currentTime = datetime.now()

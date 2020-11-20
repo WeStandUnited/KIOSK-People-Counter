@@ -69,11 +69,9 @@ def updateFaces():
     
     cur_direc = os.getcwd()
     path = os.path.join(cur_direc, 'Website/Photos/')
-    print(path)
     list_of_files = [f for f in glob.glob(path+'*.jpg')]
     number_files = len(list_of_files)
     names = list_of_files.copy()
-    print(names)
     
     # Checks if a face has been added to the file directory
     if number_files > number_of_faces:
@@ -128,6 +126,7 @@ def bodyDetection():
             #SCPInitSender.sendFile('Videos/{}.avi'.format(video_name), 'cchiass2', 'pi.cs.oswego.edu', '/home/cchiass2/KIOSK-People-Counter/Videos/')
             #os.system('cd Videos/; rm {}.avi; cd ..'.format(video_name))
             print("video sent.")
+            videoTime = -1
             isRecording = False
         # Converts the frame to grey
         grey = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
@@ -143,6 +142,7 @@ def bodyDetection():
                 current_time = now.strftime("%H:%M:%S")
                 video_name = current_time
                 output = cv2.VideoWriter('Videos/{}.avi'.format(current_time), fourcc, 20.0, (int(width), int(height)))
+                videoTimeout = FPS * 5
                 print("new video created.")
                 isRecording = True
             #else:
@@ -242,7 +242,6 @@ def faceDetection():
             right *= 4
             bottom *= 4
             left *= 4
-            print(top)
 
         # Draw a rectangle around the face
             cv2.rectangle(frame, (left, top), (right, bottom), (39, 85, 55), 2)
