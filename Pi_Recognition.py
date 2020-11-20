@@ -73,7 +73,7 @@ def updateFaces():
     list_of_files = [f for f in glob.glob(path+'*.jpg')]
     number_files = len(list_of_files)
     names = list_of_files.copy()
-    print(number_files)
+    print(names)
     
     # Checks if a face has been added to the file directory
     if number_files > number_of_faces:
@@ -113,7 +113,7 @@ def bodyDetection():
     
     # Each frame from the video capture
     frameReturned, frame = capture.read()
-    frame = cv2.flip(frame, 0)
+    #frame = cv2.flip(frame, 0)
     if frameReturned:
         if isRecording and videoTimeout > 0: 
             
@@ -125,8 +125,9 @@ def bodyDetection():
              
             WIP
             '''
-            SCPInitSender.sendFile('Videos/{}.avi'.format(video_name), 'cchiass2', 'pi.cs.oswego.edu', '/home/cchiass2/KIOSK-People-Counter/Videos/')
-            os.system('cd Videos/; rm {}.avi; cd ..'.format(video_name))
+            #SCPInitSender.sendFile('Videos/{}.avi'.format(video_name), 'cchiass2', 'pi.cs.oswego.edu', '/home/cchiass2/KIOSK-People-Counter/Videos/')
+            #os.system('cd Videos/; rm {}.avi; cd ..'.format(video_name))
+            print("video sent.")
             isRecording = False
         # Converts the frame to grey
         grey = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
@@ -142,6 +143,7 @@ def bodyDetection():
                 current_time = now.strftime("%H:%M:%S")
                 video_name = current_time
                 output = cv2.VideoWriter('Videos/{}.avi'.format(current_time), fourcc, 20.0, (int(width), int(height)))
+                print("new video created.")
                 isRecording = True
             #else:
                 #videoutTime = FPS * 5
@@ -162,8 +164,9 @@ def bodyDetection():
              
             WIP
             '''
-            SCPInitSender.sendFile('Videos/{}.avi'.format(video_name), 'cchiass2', 'pi.cs.oswego.edu', '/home/cchiass2/KIOSK-People-Counter/Videos/')
-            os.system('cd Videos/; rm {}.avi; cd ..'.format(video_name))
+            #SCPInitSender.sendFile('Videos/{}.avi'.format(video_name), 'cchiass2', 'pi.cs.oswego.edu', '/home/cchiass2/KIOSK-People-Counter/Videos/')
+            #os.system('cd Videos/; rm {}.avi; cd ..'.format(video_name))
+            print("video sent.")
             
 """
 A method for the Face Detection process
@@ -192,7 +195,7 @@ def faceDetection():
     process_this_frame = True
     
     frameReturned, frame = capture.read()
-    frame = cv2.flip(frame, 0)
+    #frame = cv2.flip(frame, 0)
     # A frame must be returned and also checks if the method timeout'ed
     if frameReturned and timeout == False:
         small_frame = imutils.resize(frame, width=min(300, frame.shape[1]))
@@ -250,6 +253,7 @@ def faceDetection():
 
             # Get name
             text = os.path.splitext(os.path.basename(name))[0] + '!'
+            text = text[5:]
 
             cv2.putText(frame, '{}{}'.format(greeting(), text), (left + 6, bottom - 6), font, 1.0, (255, 255, 255), 1)
             
@@ -315,7 +319,7 @@ def main():
             update_faces_counter = update_faces_counter - 1
         
         #If state is body processing
-        if state == State.BODY_PROCESS and currentTime.hour >= 8 and currentTime.hour < 17:
+        if state == State.BODY_PROCESS: #and currentTime.hour >= 8 and currentTime.hour < 17:
             bodyDetection()
             
             elapsedFrames = elapsedFrames - 1
@@ -323,7 +327,7 @@ def main():
             # Every second, it checks to see if there is a face in the frame
             if elapsedFrames == 0:
                 frameReturned, frame = capture.read()
-                frame = cv2.flip(frame, 0)
+                #frame = cv2.flip(frame, 0)
                 # Tries to detect a face
                 frame = imutils.resize(frame, width=min(300, frame.shape[1]))
                 grey = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
@@ -344,7 +348,7 @@ def main():
                 # Set the frame counter back to initial state
                 elapsedFrames = FPS
         # If state is face processing       
-        elif state == State.FACE_PROCESS or (currentTime.hour < 8 and currentTime.hour >= 17):
+        elif state == State.FACE_PROCESS:# or (currentTime.hour < 8 and currentTime.hour >= 17):
             # Checks to see if there are no timeouts
             if face_detection_timeout > 0:
                 faceDetection()

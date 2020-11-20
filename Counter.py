@@ -7,6 +7,7 @@ from PIL import Image
 from random import randint
 import csv
 from datetime import datetime
+import time
 
 countArray = []
 previous_number_of_files = 0
@@ -95,6 +96,7 @@ Description:
 '''
 def main():
     global number_of_files
+    global previous_number_of_files
     
     # Counters
     peopleEntered = 0
@@ -109,6 +111,7 @@ def main():
     # Finds videos in the directory
     list_of_files = [f for f in glob.glob(path+'*.avi')]
     number_of_files = len(list_of_files)
+    previous_number_of_files = number_of_files
     video_index = 0
 
     # Loops through each video
@@ -219,6 +222,8 @@ def main():
                     # Add the count
                     countArray.append('{}:{}'.format(hour, peopleEntered))
                     countArray.append('{}:{}'.format(hour, peopleLeft * -1))
+                    capture.release()
+                    cv2.destroyAllWindows()
                     break
                     
             # If the video ended, then move onto the next video    
@@ -229,16 +234,29 @@ def main():
                 hour = time[0]
                 countArray.append('{}:{}'.format(hour, peopleEntered))
                 countArray.append('{}:{}'.format(hour, peopleLeft * -1))
+                capture.release()
+                cv2.destroyAllWindows()
                 break
+            
+        capture.release()
+        cv2.destroyAllWindows()
+    
                 
 if __name__ == '__main__':
-    while True: 
-        time.sleep(60)
-        if number_of_files > previous_number_of_files:
+    
+    while True:
+        cur_direc = os.getcwd()
+        path = os.path.join(cur_direc, 'Videos/')
+        # Finds videos in the directory
+        list_of_files = [f for f in glob.glob(path+'*.avi')]
+        number_of_files = len(list_of_files)
+        
+        if number_of_files > previous_number_of_files: 
+            print(number_of_files)
+            print(previous_number_of_files)
             main()
             
         currentTime = datetime.now()
         
         if currentTime.hour == 18: 
             addToDay()
-        
