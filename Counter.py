@@ -245,6 +245,7 @@ def main():
 if __name__ == '__main__':
     
     while True:
+        print("checking")
         cur_direc = os.getcwd()
         path = os.path.join(cur_direc, 'Videos/')
         # Finds videos in the directory
@@ -260,3 +261,5 @@ if __name__ == '__main__':
         
         if currentTime.hour == 18: 
             addToDay()
+            
+        time.sleep(5)
