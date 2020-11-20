@@ -300,12 +300,13 @@ def main():
     
     #Variables for timeouts
     face_detection_timeout = FPS * 10
-    UPDATE_FACES_FRAMES = FPS * 180
+    UPDATE_FACES_FRAMES = FPS * 3600
     update_faces_counter = UPDATE_FACES_FRAMES
     elapsedFrames = FPS
     
+    
     while capture.isOpened():
-        
+        currentTime = datetime.now()
         # Checks to see if after a certain amount of time, if the system should try to refresh the faces from the directory
         if update_faces_counter == 0:
             updateFaces()
@@ -314,7 +315,7 @@ def main():
             update_faces_counter = update_faces_counter - 1
         
         #If state is body processing
-        if state == State.BODY_PROCESS:
+        if state == State.BODY_PROCESS and currentTime.hour >= 8 and currentTime.hour < 17:
             bodyDetection()
             
             elapsedFrames = elapsedFrames - 1
@@ -343,7 +344,7 @@ def main():
                 # Set the frame counter back to initial state
                 elapsedFrames = FPS
         # If state is face processing       
-        elif state == State.FACE_PROCESS:
+        elif state == State.FACE_PROCESS or (currentTime.hour < 8 and currentTime.hour >= 17):
             # Checks to see if there are no timeouts
             if face_detection_timeout > 0:
                 faceDetection()
