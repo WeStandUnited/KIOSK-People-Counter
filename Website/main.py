@@ -1,5 +1,4 @@
 import csv
-from flask import Flask, render_template, request, redirect, send_file
 from flask_wtf import FlaskForm
 from werkzeug.utils import secure_filename
 from wtforms import StringField
@@ -7,89 +6,87 @@ from flask import Flask, request, redirect, render_template
 from paramiko import SSHClient
 from scp import SCPClient
 import os
+import random
+from PIL import Image
+from waitress import serve
 
 
+#PHOTO_DIRECTORY = "/home/cj/PycharmProjects/ImageTransporter/KIOSK-People-Counter/Photos/"
+#CSV_DIRECTORY = '/home/cj/PycharmProjects/ImageTransporter/KIOSK-People-Counter/pin.csv'
+PHOTO_DIRECTORY ="/home/cchiass2/KIOSK-People-Counter/Photos/"
+CSV_DIRECTORY ="/home/cchiass2/KIOSK-People-Counter/pin.csv"
 
-MAX_BYTE = 8294400
 
-def sendFile(pin,username,host):
-    ssh = SSHClient()
-    ssh.load_host_keys(os.path.expanduser(os.path.join("~", ".ssh", "known_hosts")))
-    ssh.connect(host, username=username)
-    with SCPClient(ssh.get_transport()) as scp:
-        scp.put(pin+".jpeg", '/home/'+username+'/csc380/'+pin+".jpeg")# second parameter is what the name of the sent file is
+def generate_new_pin():
+    """
+    Generate a new pin by finding a random number between 10000->99999
+    While checking pin.csv to make sure it hasn't already been used
+    """
+    new_pin = random.randint(10000, 99999)
+    file = os.path.abspath(CSV_DIRECTORY)
+    with open(file, 'r') as r_file:
+        reader = csv.reader(r_file)
+        for row in reader:
+            for pin in row:
+                if str(new_pin) == pin:
+                    new_pin = generate_new_pin()
+                break
+    r_file.close()
+    return new_pin
 
-def getPins():
-    path = os.path.abspath('pin.csv')
-    with open(path, newline='') as f:
-        reader = csv.reader(f)
-        data = list(reader)
 
-    return data[0]
+def write_pin_to_csv(new_pin):
+    """
+    Given a unique pin, add it to the csv
+    """
+    file = os.path.abspath(CSV_DIRECTORY)
+    with open(file, 'a', newline='') as w_file:
+        writer = csv.writer(w_file)
+        writer.writerow([new_pin])
+
+    w_file.close()
+
 
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = 'Thisisasecret!'
-
-
+app.config['SECRET_KEY'] = '*XM_!-9a=S*Ta$9Xq?h8@YNks4Ye#GHK9GNWa8*49Xdd3SnnunUrUEd?=M$5k3yXk-%Tg73y-?jr!z436*cWzNzguA%bm3Qb-kh4!'
 class PinForm(FlaskForm):
 
-    pin = StringField('Pin:')
     name = StringField('Name:')
-
-
-def upload_file():
-   if request.method == 'POST':
-
-      return 'file uploaded successfully'
-
 
 @app.route('/error')
 def error():
-    return render_template('error.html')
+   return render_template('error.html')
 
-@app.route('/about.html')
-def about():
-    return render_template('about.html')
+@app.route('/registered')
+def registered():
+   return render_template('registered.html')
+
+@app.route('/aboutus')
+def aboutus():
+   return render_template('about.html')
 
 @app.route('/', methods=['GET', 'POST'])
 def form():
     form = PinForm()
 
-    if request.method == 'POST':
-        if form.pin.data in getPins():
-            print(form.pin.data)
+    if request.method == 'POST' and request.form['name'] is not '' and request.files['file'].filename is not '':
             f = request.files['file']
-            f.save(secure_filename(f.filename))
+            print(f.filename)
+            print(f.filename.split("."))
+            new_pin = str(generate_new_pin())
+            write_pin_to_csv(new_pin)
+            file_ext = f.filename.split(".")[1]
+            imagename = new_pin+form.name.data+"."+file_ext#TODO get working with png,jpeg ,and jpg
+            f.save(PHOTO_DIRECTORY+secure_filename(imagename))
+            if (file_ext is ".jpeg" or ".jpg"):
+                im1 = Image.open(PHOTO_DIRECTORY+"/"+imagename)
+                im1.save(PHOTO_DIRECTORY+imagename.split(".")[0]+".png")
+                os.remove(PHOTO_DIRECTORY+imagename)
+            return redirect('/registered')
 
-            return '<h1>Hello {}. you have been added!'.format(form.pin.data)
-        else:
-            return redirect('/error')#<h1>Error {}. not valid'.format(form.pin.data)
 
     return render_template('form.html', form=form)
-
-
-@app.route('/facedownload')
-def zipdownload():
-    if (request.environ.get('HTTP_X_REAL_IP', request.remote_addr) == '127.0.0.1'):#replace with IP of RPI
-        path = 'face.zip'
-        return send_file(path, as_attachment=True)
-    else:
-        return render_template('error.html')
-
-
-@app.route('/fileupload')
-def fileupload():
-    return render_template('fileupload.html')
-
-
-@app.route('/upload', methods=['POST', 'GET'])
-def upload():
-    if request.method == 'POST':
-        f = request.files['file']
-        f.save(secure_filename(f.filename))
-        return "File saved successfully"
-
-
 if __name__ == '__main__':
-    app.run(debug=True)
+    #app.run(debug=True)
+    serve(app,host='pi.cs.oswego.edu',port=2770,url_scheme='http')
