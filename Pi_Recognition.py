@@ -113,7 +113,7 @@ def bodyDetection():
     
     # Each frame from the video capture
     frameReturned, frame = capture.read()
-    #frame = cv2.flip(frame, 0)
+    frame = cv2.flip(frame, 0)
     if frameReturned:
         if isRecording and videoTimeout > 0: 
             
@@ -192,7 +192,7 @@ def faceDetection():
     process_this_frame = True
     
     frameReturned, frame = capture.read()
-    #frame = cv2.flip(frame, 0)
+    frame = cv2.flip(frame, 0)
     # A frame must be returned and also checks if the method timeout'ed
     if frameReturned and timeout == False:
         small_frame = imutils.resize(frame, width=min(300, frame.shape[1]))
@@ -322,7 +322,7 @@ def main():
             # Every second, it checks to see if there is a face in the frame
             if elapsedFrames == 0:
                 frameReturned, frame = capture.read()
-                #frame = cv2.flip(frame, 0)
+                frame = cv2.flip(frame, 0)
                 # Tries to detect a face
                 frame = imutils.resize(frame, width=min(300, frame.shape[1]))
                 grey = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
