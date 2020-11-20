@@ -11,10 +11,10 @@ from PIL import Image
 from waitress import serve
 
 
-#PHOTO_DIRECTORY = "/home/cj/PycharmProjects/ImageTransporter/KIOSK-People-Counter/Photos/"
-#CSV_DIRECTORY = '/home/cj/PycharmProjects/ImageTransporter/KIOSK-People-Counter/pin.csv'
-PHOTO_DIRECTORY ="/home/cchiass2/KIOSK-People-Counter/Photos/"
-CSV_DIRECTORY ="/home/cchiass2/KIOSK-People-Counter/pin.csv"
+PHOTO_DIRECTORY = "/home/cj/PycharmProjects/ImageTransporter/KIOSK-People-Counter/Photos/"
+CSV_DIRECTORY = '/home/cj/PycharmProjects/ImageTransporter/KIOSK-People-Counter/pin.csv'
+#PHOTO_DIRECTORY ="/home/cchiass2/KIOSK-People-Counter/Website/Photos/"
+#CSV_DIRECTORY ="/home/cchiass2/KIOSK-People-Counter/Website/pin.csv"
 
 
 def generate_new_pin():
@@ -49,7 +49,7 @@ def write_pin_to_csv(new_pin):
 
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = '*XM_!-9a=S*Ta$9Xq?h8@YNks4Ye#GHK9GNWa8*49Xdd3SnnunUrUEd?=M$5k3yXk-%Tg73y-?jr!z436*cWzNzguA%bm3Qb-kh4!'
+app.config['SECRET_KEY'] = 'HGV@QpcXu!xHyz2cD7^Dm+@QSaKefUsfgqxHA5ryZ!2D^ZU-Dpsbp?-?Z%?X'
 class PinForm(FlaskForm):
 
     name = StringField('Name:')
@@ -77,16 +77,21 @@ def form():
             new_pin = str(generate_new_pin())
             write_pin_to_csv(new_pin)
             file_ext = f.filename.split(".")[1]
-            imagename = new_pin+form.name.data+"."+file_ext#TODO get working with png,jpeg ,and jpg
+            imagename = new_pin+form.name.data+"."+file_ext
             f.save(PHOTO_DIRECTORY+secure_filename(imagename))
-            if (file_ext is ".jpeg" or ".jpg"):
+            if (file_ext is "png" or "jpeg"):
                 im1 = Image.open(PHOTO_DIRECTORY+"/"+imagename)
-                im1.save(PHOTO_DIRECTORY+imagename.split(".")[0]+".png")
-                os.remove(PHOTO_DIRECTORY+imagename)
+                im1.convert('RGB').save(PHOTO_DIRECTORY+imagename.split(".")[0]+".jpg")
+                os.system("rm "+PHOTO_DIRECTORY+"*.jpeg")
+                os.system("rm " + PHOTO_DIRECTORY + "*.png")
+
+
+
             return redirect('/registered')
 
 
     return render_template('form.html', form=form)
 if __name__ == '__main__':
     #app.run(debug=True)
+
     serve(app,host='pi.cs.oswego.edu',port=2770,url_scheme='http')
