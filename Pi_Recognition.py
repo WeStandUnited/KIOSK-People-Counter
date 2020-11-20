@@ -9,6 +9,16 @@ import numpy as np
 import SCPInitSender 
 from datetime import datetime
 
+def greeting():
+    currentTime = datetime.now()
+
+    if currentTime.hour < 12:
+        return 'Good Morning, '
+    elif 12 <= currentTime.hour < 18:
+        return 'Good Afternoon, '
+    else:
+        return 'Good Evening, '
+
 # Possible states for the system
 class State(Enum):
     BODY_PROCESS = 1
@@ -63,6 +73,7 @@ def updateFaces():
     list_of_files = [f for f in glob.glob(path+'*.jpg')]
     number_files = len(list_of_files)
     names = list_of_files.copy()
+    print(number_files)
     
     # Checks if a face has been added to the file directory
     if number_files > number_of_faces:
@@ -102,7 +113,7 @@ def bodyDetection():
     
     # Each frame from the video capture
     frameReturned, frame = capture.read()
-    frame = cv2.flip(frame, 0)
+    #frame = cv2.flip(frame, 0)
     if frameReturned:
         if isRecording and videoTimeout > 0: 
             
@@ -181,7 +192,7 @@ def faceDetection():
     process_this_frame = True
     
     frameReturned, frame = capture.read()
-    frame = cv2.flip(frame, 0)
+    #frame = cv2.flip(frame, 0)
     # A frame must be returned and also checks if the method timeout'ed
     if frameReturned and timeout == False:
         small_frame = imutils.resize(frame, width=min(300, frame.shape[1]))
@@ -240,7 +251,7 @@ def faceDetection():
             # Get name
             text = os.path.splitext(os.path.basename(name))[0] + '!'
 
-            cv2.putText(frame, text, (left + 6, bottom - 6), font, 1.0, (255, 255, 255), 1)
+            cv2.putText(frame, '{}{}'.format(greeting(), text), (left + 6, bottom - 6), font, 1.0, (255, 255, 255), 1)
             
         # Display the resulting image
         cv2.imshow('FACE DETECTION', frame)
@@ -311,7 +322,7 @@ def main():
             # Every second, it checks to see if there is a face in the frame
             if elapsedFrames == 0:
                 frameReturned, frame = capture.read()
-                frame = cv2.flip(frame, 0)
+                #frame = cv2.flip(frame, 0)
                 # Tries to detect a face
                 frame = imutils.resize(frame, width=min(300, frame.shape[1]))
                 grey = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
