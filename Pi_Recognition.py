@@ -6,7 +6,7 @@ import glob
 import face_recognition
 import os
 import numpy as np
-import scpInitServer 
+import SCPInitSender 
 from datetime import datetime
 
 # Possible states for the system
@@ -58,7 +58,7 @@ def updateFaces():
     global number_of_faces
     
     cur_direc = os.getcwd()
-    path = os.path.join(cur_direc, 'data/faces/')
+    path = os.path.join(cur_direc, 'Website/Photos/')
     print(path)
     list_of_files = [f for f in glob.glob(path+'*.jpg')]
     number_files = len(list_of_files)
@@ -102,7 +102,7 @@ def bodyDetection():
     
     # Each frame from the video capture
     frameReturned, frame = capture.read()
-    
+    frame = cv2.flip(frame, 0)
     if frameReturned:
         if isRecording and videoTimeout > 0: 
             
@@ -114,7 +114,8 @@ def bodyDetection():
              
             WIP
             '''
-            #scpInitServer.sendVideo('output', 'cchiass2', 'pi.cs.oswego.edu', os.getcwd())
+            SCPInitSender.sendFile('Videos/{}.avi'.format(video_name), 'cchiass2', 'pi.cs.oswego.edu', '/home/cchiass2/KIOSK-People-Counter/Videos/')
+            os.system('cd Videos/; rm {}.avi; cd ..'.format(video_name))
             isRecording = False
         # Converts the frame to grey
         grey = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
@@ -122,14 +123,14 @@ def bodyDetection():
         # Resizes frame
         frame = imutils.resize(frame, width=min(300, frame.shape[1]))
         # Body Detection
-        (regions, _) = HOG.detectMultiScale(frame, winStride=(2,2), padding=(8,8), scale=1.04)
+        (regions, _) = HOG.detectMultiScale(frame, winStride=(8,8), padding=(8,8), scale=1.04)
         # Iterates over each body object
         if len(regions) > 0:
             if isRecording == False:
                 now = datetime.now()
                 current_time = now.strftime("%H:%M:%S")
                 video_name = current_time
-                output = cv2.VideoWriter('{}.avi'.format(current_time), fourcc, 20.0, (int(width), int(height)))
+                output = cv2.VideoWriter('Videos/{}.avi'.format(current_time), fourcc, 20.0, (int(width), int(height)))
                 isRecording = True
             #else:
                 #videoutTime = FPS * 5
@@ -150,8 +151,8 @@ def bodyDetection():
              
             WIP
             '''
-            #scpInitServer.sendVideo('output', 'cchiass2', 'pi.cs.oswego.edu', os.getcwd())
-            
+            SCPInitSender.sendFile('Videos/{}.avi'.format(video_name), 'cchiass2', 'pi.cs.oswego.edu', '/home/cchiass2/KIOSK-People-Counter/Videos/')
+            os.system('cd Videos/; rm {}.avi; cd ..'.format(video_name))
             
 """
 A method for the Face Detection process
@@ -180,7 +181,7 @@ def faceDetection():
     process_this_frame = True
     
     frameReturned, frame = capture.read()
-    
+    frame = cv2.flip(frame, 0)
     # A frame must be returned and also checks if the method timeout'ed
     if frameReturned and timeout == False:
         small_frame = imutils.resize(frame, width=min(300, frame.shape[1]))
@@ -208,14 +209,7 @@ def faceDetection():
 
                 # Adds the name to the list of all names
                 face_names.append(name)
-            unknown_faces = []
-            for i in range(0, len(face_names)):
-                if face_names[i] == "Unknown": 
-                    unknown_faces.append(face_names[i])
-                
-            for name in unknown_faces:
-                    #### Eye tracking
-                    print("test")
+        
             # If there are no faces on the screen
             if len(face_names) == 0:
                 # Start the timeout count down
@@ -317,6 +311,7 @@ def main():
             # Every second, it checks to see if there is a face in the frame
             if elapsedFrames == 0:
                 frameReturned, frame = capture.read()
+                frame = cv2.flip(frame, 0)
                 # Tries to detect a face
                 frame = imutils.resize(frame, width=min(300, frame.shape[1]))
                 grey = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)

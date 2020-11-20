@@ -47,7 +47,7 @@ def main():
     HOG.setSVMDetector(cv2.HOGDescriptor_getDefaultPeopleDetector())
 
     cur_direc = os.getcwd()
-    path = os.path.join(cur_direc, 'videos/')
+    path = os.path.join(cur_direc, 'Videos/')
 
     list_of_files = [f for f in glob.glob(path+'*.avi')]
     number_of_files = len(list_of_files)
