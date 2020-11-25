@@ -59,7 +59,7 @@ ready for graphing and emailing
 def addToDay():
     global countArray
     
-    with open('data/counter/counter.csv', 'a') as f:
+    with open('counter.csv', 'a') as f:
         writer = csv.writer(f)
         writer.writerow(countArray)
         
@@ -138,7 +138,7 @@ def main():
                 frame_resized = cv2.resize(frame, (int(frame_width / 4), int(frame_height / 4)))
                 
                 # Body detection
-                (regions, _) = HOG.detectMultiScale(frame_resized, winStride=(2,2), padding=(8,8), scale=1.04)
+                (regions, _) = HOG.detectMultiScale(frame_resized, winStride=(2,2), padding=(12,12), scale=1.01)
                 # array for all ROIs detected
                 ROIs = []
                 # Loops through each body detected
@@ -164,7 +164,7 @@ def main():
                         for ROI in ROIs:
                             hash0 = imagehash.average_hash(Image.fromarray(ROI[0]))
                             hash1 = imagehash.average_hash(Image.fromarray(person.ROI))
-                            cutoff = 50
+                            cutoff = 35
                             # Compares each ROI to the past
                             if hash0 - hash1 < cutoff:
                                 # If similiar then that ROI has a pervious class associated with it
@@ -215,6 +215,7 @@ def main():
                 # For debugging purposes
                 if cv2.waitKey(1) & 0xFF == ord('q'):
                     # End the video and switch to the next video
+                    os.system('cd Videos/; rm {}'.format(list_of_files[video_index]))
                     number_of_files = number_of_files - 1 
                     video_index = video_index + 1
                     time = video_name.split(':')
@@ -230,6 +231,7 @@ def main():
                     
             # If the video ended, then move onto the next video    
             else:
+                os.system('cd Videos/; rm {}'.format(list_of_files[video_index]))
                 number_of_files = number_of_files - 1
                 video_index = video_index + 1
                 time = video_name.split(':')
@@ -255,7 +257,7 @@ if __name__ == '__main__':
         list_of_files = [f for f in glob.glob(path+'*.avi')]
         number_of_files = len(list_of_files)
         
-        if number_of_files > previous_number_of_files: 
+        if number_of_files > 0: 
             main()
             
         currentTime = datetime.now()
