@@ -231,7 +231,7 @@ def main():
                     
             # If the video ended, then move onto the next video    
             else:
-                os.system('rm {}'.format(list_of_files[video_index]))
+                os.system('cd Videos/; rm {}'.format(list_of_files[video_index]))
                 number_of_files = number_of_files - 1
                 video_index = video_index + 1
                 time = video_name.split(':')
