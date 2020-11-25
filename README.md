@@ -1,4 +1,4 @@
-# Kiosk People Tracker & Counter
+# Kiosk People Tracker & Counter 
 
 ## The State University of New York (SUNY) College at Oswego - CS 380 Fall 2020 Team D
 ### Team: Gregory Maldonado, William Bowling, Christian MarLett, Robert Netti & CJ Chiasson
