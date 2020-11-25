@@ -111,21 +111,24 @@ def bodyDetection():
     
     # Each frame from the video capture
     frameReturned, frame = capture.read()
-    #frame = cv2.flip(frame, 0)
+    frame = cv2.flip(frame, 0)
     if frameReturned:
         if isRecording and videoTimeout > 0: 
             
             output.write(frame)
-        if videoTimeout == 0:
+        if videoTimeout == 0 and isRecording:
             output.release()
             '''
             Sending to server
              
             WIP
             '''
-            #SCPInitSender.sendFile('Videos/{}.avi'.format(video_name), 'cchiass2', 'pi.cs.oswego.edu', '/home/cchiass2/KIOSK-People-Counter/Videos/')
-            #os.system('cd Videos/; rm {}.avi; cd ..'.format(video_name))
-            print("video sent.")
+            try:
+                SCPInitSender.sendFile('Videos/{}.avi'.format(video_name), 'cchiass2', 'pi.cs.oswego.edu', '/home/cchiass2/KIOSK-People-Counter/Videos/')
+                os.system('cd Videos/; rm {}.avi; cd ..'.format(video_name))
+                print("video sent.")
+            except:
+                print("")
             videoTime = -1
             isRecording = False
         # Converts the frame to grey
@@ -134,7 +137,7 @@ def bodyDetection():
         # Resizes frame
         frame = imutils.resize(frame, width=min(300, frame.shape[1]))
         # Body Detection
-        (regions, _) = HOG.detectMultiScale(frame, winStride=(8,8), padding=(8,8), scale=1.04)
+        (regions, _) = HOG.detectMultiScale(frame, winStride=(8,8), padding=(12,12), scale=1.02)
         # Iterates over each body object
         if len(regions) > 0:
             if isRecording == False:
@@ -164,9 +167,12 @@ def bodyDetection():
              
             WIP
             '''
-            #SCPInitSender.sendFile('Videos/{}.avi'.format(video_name), 'cchiass2', 'pi.cs.oswego.edu', '/home/cchiass2/KIOSK-People-Counter/Videos/')
-            #os.system('cd Videos/; rm {}.avi; cd ..'.format(video_name))
-            print("video sent.")
+            try:
+                SCPInitSender.sendFile('Videos/{}.avi'.format(video_name), 'cchiass2', 'pi.cs.oswego.edu', '/home/cchiass2/KIOSK-People-Counter/Videos/')
+                os.system('cd Videos/; rm {}.avi; cd ..'.format(video_name))
+                print("video sent.")
+            except:
+                print("")
             
 """
 A method for the Face Detection process
@@ -195,13 +201,14 @@ def faceDetection():
     process_this_frame = True
     
     frameReturned, frame = capture.read()
-    #frame = cv2.flip(frame, 0)
+    frame = cv2.flip(frame, 0)
     # A frame must be returned and also checks if the method timeout'ed
     if frameReturned and timeout == False:
-        small_frame = imutils.resize(frame, width=min(300, frame.shape[1]))
+        frame_height, frame_width, _ = frame.shape
+        frame_resized = cv2.resize(frame, (int(frame_width /4 ), int(frame_height /4)))
+        # small_frame = imutils.resize(frame, width=min(300, frame.shape[1]))
         # Convert image from BGR to RGB for facial_recognition
-        rgb_small_frame = small_frame[:, :, ::-1]
-        
+        rgb_small_frame = frame_resized[:, :, ::-1]       
         if process_this_frame:
             # find all the faces and face encodings in the current frame of video
             face_locations = face_recognition.face_locations(rgb_small_frame)
@@ -213,7 +220,7 @@ def faceDetection():
                 # see if the face is a match for the known faces
                 matches = face_recognition.compare_faces(faces_encodings, face_encoding)
                 # Default name
-                name = "Unknown"
+                name = "00000Unknown"
 
                 # Face recoginition 
                 face_distances = face_recognition.face_distance(faces_encodings, face_encoding)
@@ -326,7 +333,7 @@ def main():
             # Every second, it checks to see if there is a face in the frame
             if elapsedFrames == 0:
                 frameReturned, frame = capture.read()
-                #frame = cv2.flip(frame, 0)
+                frame = cv2.flip(frame, 0)
                 # Tries to detect a face
                 frame = imutils.resize(frame, width=min(300, frame.shape[1]))
                 grey = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
@@ -341,7 +348,9 @@ def main():
              
                         WIP
                         '''
-                        #scpInitServer.sendVideo('output', 'cchiass2', 'pi.cs.oswego.edu', os.getcwd())
+                        SCPInitSender.sendFile('Videos/{}.avi'.format(video_name), 'cchiass2', 'pi.cs.oswego.edu', '/home/cchiass2/KIOSK-People-Counter/Videos/')
+                        os.system('cd Videos/; rm {}.avi; cd ..'.format(video_name))
+                        print("video sent.")
                             
                     state = State.FACE_PROCESS
                 # Set the frame counter back to initial state
