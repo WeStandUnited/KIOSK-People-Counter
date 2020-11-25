@@ -59,7 +59,7 @@ ready for graphing and emailing
 def addToDay():
     global countArray
     
-    with open('data/counter/counter.csv', 'a') as f:
+    with open('counter.csv', 'a') as f:
         writer = csv.writer(f)
         writer.writerow(countArray)
         
