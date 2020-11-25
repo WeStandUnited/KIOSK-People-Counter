@@ -138,7 +138,7 @@ def main():
                 frame_resized = cv2.resize(frame, (int(frame_width / 4), int(frame_height / 4)))
                 
                 # Body detection
-                (regions, _) = HOG.detectMultiScale(frame_resized, winStride=(2,2), padding=(8,8), scale=1.04)
+                (regions, _) = HOG.detectMultiScale(frame_resized, winStride=(2,2), padding=(12,12), scale=1.01)
                 # array for all ROIs detected
                 ROIs = []
                 # Loops through each body detected
@@ -164,7 +164,7 @@ def main():
                         for ROI in ROIs:
                             hash0 = imagehash.average_hash(Image.fromarray(ROI[0]))
                             hash1 = imagehash.average_hash(Image.fromarray(person.ROI))
-                            cutoff = 50
+                            cutoff = 35
                             # Compares each ROI to the past
                             if hash0 - hash1 < cutoff:
                                 # If similiar then that ROI has a pervious class associated with it
@@ -224,6 +224,7 @@ def main():
                     print("People Left: {}".format(peopleLeft))
                     countArray.append('{}:{}'.format(hour, peopleEntered))
                     countArray.append('{}:{}'.format(hour, peopleLeft * -1))
+                    os.system('rm {}'.format(list_of_files[video_index]))
                     capture.release()
                     cv2.destroyAllWindows()
                     break
@@ -238,6 +239,7 @@ def main():
                 print("People Left: {}".format(peopleLeft))
                 countArray.append('{}:{}'.format(hour, peopleEntered))
                 countArray.append('{}:{}'.format(hour, peopleLeft * -1))
+                os.system('rm {}'.format(list_of_files[video_index]))
                 capture.release()
                 cv2.destroyAllWindows()
                 break
@@ -255,7 +257,7 @@ if __name__ == '__main__':
         list_of_files = [f for f in glob.glob(path+'*.avi')]
         number_of_files = len(list_of_files)
         
-        if number_of_files > previous_number_of_files: 
+        if number_of_files > 0: 
             main()
             
         currentTime = datetime.now()
