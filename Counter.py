@@ -215,7 +215,7 @@ def main():
                 # For debugging purposes
                 if cv2.waitKey(1) & 0xFF == ord('q'):
                     # End the video and switch to the next video
-                    os.system('rm {}'.format(list_of_files[video_index]))
+                    os.system('cd Videos/; rm {}'.format(list_of_files[video_index]))
                     number_of_files = number_of_files - 1 
                     video_index = video_index + 1
                     time = video_name.split(':')
@@ -240,7 +240,6 @@ def main():
                 print("People Left: {}".format(peopleLeft))
                 countArray.append('{}:{}'.format(hour, peopleEntered))
                 countArray.append('{}:{}'.format(hour, peopleLeft * -1))
-                os.system('rm {}'.format(list_of_files[video_index]))
                 capture.release()
                 cv2.destroyAllWindows()
                 break
