@@ -8,6 +8,7 @@ from random import randint
 import csv
 from datetime import datetime
 import time
+import emailer
 
 countArray = []
 previous_number_of_files = 0
@@ -78,6 +79,24 @@ def newDay():
     
     countArray = []
 
+def newWeek():
+    with open('counter.csv', newline="") as csvfile:
+        rows = csv.reader(csvfile, delimiter=',')
+        totalEntered = 0
+        totalLeft = 0
+        for row in rows:
+            for tracker in row:
+                count = tracker.split(':')
+                count = count[1]
+                if count > 0:
+                    totalEntered = totalEntered + count
+                else:
+                    totalLeft = totalLeft + count
+        emailer.dailyEmail(totalEntered, totalLeft)
+        csvfile.close()
+        
+                
+                
 '''
 Main Method
 
@@ -258,12 +277,18 @@ if __name__ == '__main__':
         number_of_files = len(list_of_files)
         
         if number_of_files > 0: 
-            main()
+            #main()
+            x = 1
             
         currentTime = datetime.now()
         
         if currentTime.hour == 18: 
             addToDay()
+            
+        day = datetime.today().weekday()
+        if day == 3:
+            newWeek()
+            break
             
         if cv2.waitKey(1) & 0xFF == ord('q'):
             break
