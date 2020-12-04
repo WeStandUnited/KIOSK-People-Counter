@@ -286,9 +286,8 @@ if __name__ == '__main__':
             addToDay()
             
         day = datetime.today().weekday()
-        if day == 3:
+        if day == 6:
             newWeek()
-            break
             
         if cv2.waitKey(1) & 0xFF == ord('q'):
             break
