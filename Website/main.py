@@ -11,10 +11,9 @@ from PIL import Image
 from waitress import serve
 
 
-#PHOTO_DIRECTORY = "/home/cj/PycharmProjects/ImageTransporter/KIOSK-People-Counter/Photos/"
-#CSV_DIRECTORY = '/home/cj/PycharmProjects/ImageTransporter/KIOSK-People-Counter/pin.csv'
-PHOTO_DIRECTORY ="/home/cchiass2/KIOSK-People-Counter/Website/Photos/"
-CSV_DIRECTORY ="/home/cchiass2/KIOSK-People-Counter/Website/pin.csv"
+
+PHOTO_DIRECTORY ="/Photos"
+CSV_DIRECTORY ="pin.csv"
 
 
 def generate_new_pin():

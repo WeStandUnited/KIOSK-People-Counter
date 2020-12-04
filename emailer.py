@@ -5,10 +5,8 @@ from email.mime.base import MIMEBase
 from email import encoders
 import datetime
 
-def daily_update():
-    # creates file writes contents and closes
-    total_count = 25
-    remaining = 3
+def daily_update(totalEntered, totalLeft):
+
     f = open('daily_update.html', 'w')
     contents = """<html>
             <head>
@@ -21,26 +19,26 @@ def daily_update():
                 <br />
             </div>
             <p></p>
-            <p>Total People who entered Shineman: %d</p>
+            <p>Total People who entered Shineman this week: %d</p>
             <p></p>
-            <p>Total People still in Shineman as of 8:00pm: %d</p>
+            <p>Total People who left Shineman this week: %d</p>
             <p></p>
             <br />
             <br />
             <p>That's all there is to report. Thank you for your time and enjoy the rest of your evening.</p>
             <p>-Shineman Kiosk</p>
             </body>
-            </html>""" % (total_count, remaining)
+            </html>""" % (totalEntered, totalLeft)
     f.write(contents)
     f.close()
 
 
-def dailyEmail():
+def dailyEmail(totalEntered, totalLeft):
     now = datetime.datetime.now()
 
-    if now.hour == 20 and now.minute == 00 and now.second == 00:
+    if True:
         # create  daily update file
-        daily_update()
+        daily_update(totalEntered, totalLeft)
 
         # read credentials from file
         filepath = 'credentials.txt'
@@ -80,5 +78,3 @@ def dailyEmail():
             smtp.ehlo()
             smtp.login(sender, password)
             smtp.sendmail(sender, receiver, text)
-
-dailyEmail()

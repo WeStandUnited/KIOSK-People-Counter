@@ -108,7 +108,10 @@ def bodyDetection():
     global isRecording
     global output
     global video_name
-    
+
+
+
+    SCPInitSender.pullFileBash("/home/pi/KIOSK-People-Counter/","username","server","/home/username/KIOSK-People-Counter$/Website/Photos")#TODO change username and server
     # Each frame from the video capture
     frameReturned, frame = capture.read()
     frame = cv2.flip(frame, 0)
@@ -168,7 +171,7 @@ def bodyDetection():
             WIP
             '''
             try:
-                SCPInitSender.sendFile('Videos/{}.avi'.format(video_name), 'cchiass2', 'pi.cs.oswego.edu', '/home/cchiass2/KIOSK-People-Counter/Videos/')
+                SCPInitSender.sendFile('Videos/{}.avi'.format(video_name), 'username', 'server', '/home/username/KIOSK-People-Counter/Videos/')#TODO CHANGE USERNAME AND SERVER
                 os.system('cd Videos/; rm {}.avi; cd ..'.format(video_name))
                 print("video sent.")
             except:
@@ -348,7 +351,7 @@ def main():
              
                         WIP
                         '''
-                        SCPInitSender.sendFile('Videos/{}.avi'.format(video_name), 'cchiass2', 'pi.cs.oswego.edu', '/home/cchiass2/KIOSK-People-Counter/Videos/')
+                        SCPInitSender.sendFile('Videos/{}.avi'.format(video_name), 'username', 'server', '/home/username/KIOSK-People-Counter/Videos/')#TODO CHANGE THIS TO YOUR USERNAME AND SERVER
                         os.system('cd Videos/; rm {}.avi; cd ..'.format(video_name))
                         print("video sent.")
                             

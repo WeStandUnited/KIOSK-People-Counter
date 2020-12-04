@@ -25,8 +25,6 @@ def sendFile(local_file,username,host,server_local):
     with SCPClient(ssh.get_transport()) as scp:
         scp.put(local_file,server_local)
 
-#pullFile("/home/cchiass2/test.txt","cchiass2","pi.cs.oswego.edu","/home/cj/")
-#Example use case
 def pullFile(local_file_dump,username,host,server_local):
     ssh = SSHClient()
     ssh.load_host_keys(os.path.expanduser(os.path.join("~", ".ssh", "known_hosts")))
@@ -36,3 +34,5 @@ def pullFile(local_file_dump,username,host,server_local):
 
 
 
+def pullFileBash(local_dump,username,host,server_local_dl):
+    os.system("scp -r "+username+"@"+host+":"+server_local_dl+" "+local_dump)
