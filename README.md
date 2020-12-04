@@ -19,6 +19,7 @@ Hardware Required: Raspberry Pi (Preferably Pi Gen 4)
 Software Required: Python 3+
                    Raspbian ( or any debian based PI distro)
                    Offsite Computer running debian
+                   nohup
                    
 Python Dependencies: FlaskForm, werkzeug.utils , wtforms ,request, redirect, render_template , PIL , waitress , datetime , rand , os , imagehash , glob , cv2 ,paramiko ,scp ,imutils , time , enum , face_recognition , numpy , datetime. 
 
@@ -42,9 +43,11 @@ Please Note depending on OS you may need system package to config specific pytho
   
   Step 5) Replace Directory pointers with your own Directories
   
+  Step 6) Nohup Run Pi_Regcognition.py and Counter.py ( on Pi )
+  
   </il>
   
-  <b> Setting up Website </b>
+  <b> Setting up Website and Server </b>
   <il>
   
   Step 1) Replace values in main.py with your host and user name.
@@ -55,6 +58,11 @@ Please Note depending on OS you may need system package to config specific pytho
   
   Step 4) Replace Secret Key with a Hash of your liking.
 
+  Step 5) Setup A Gmail account and import into credentials.txt
+  
+  Step 6) Nohup Run emailer.py ( on Server )
+  
+  Step 7) Nohup Run main.py ( on Server )
   
   </il>
 </p>  
