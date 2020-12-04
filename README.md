@@ -26,6 +26,15 @@ Python Dependencies: FlaskForm, werkzeug.utils , wtforms ,request, redirect, ren
 Please Note depending on OS you may need system package to config specific python libaries.
 </p>
 
+# Important Step
+<p>
+  In : main.py , Pi_recognition.py ,and Counter.py <b> ALL DUMMY DIRECTORIES MUST BE CHANGED </b>
+  
+  Any usage of SCPinit must be changed to your RSA'd username to your host,and your host must point to your host!
+</p>
+
+
+
 # Setup of Raspberry PI and Server
 <p>
   Now that you have all hardware and Software Requirments.
@@ -43,7 +52,7 @@ Please Note depending on OS you may need system package to config specific pytho
   
   Step 5) Replace Directory pointers with your own Directories
   
-  Step 6) Nohup Run Pi_Regcognition.py and Counter.py ( on Pi )
+  Step 6) Nohup Run Pi_recognition.py and Counter.py ( on Pi )
   
   </il>
   
@@ -59,10 +68,8 @@ Please Note depending on OS you may need system package to config specific pytho
   Step 4) Replace Secret Key with a Hash of your liking.
 
   Step 5) Setup A Gmail account and import into credentials.txt
-  
-  Step 6) Nohup Run emailer.py ( on Server )
-  
-  Step 7) Nohup Run main.py ( on Server )
+ 
+  Step 6) Nohup Run main.py ( on Server )
   
   </il>
 </p>  
