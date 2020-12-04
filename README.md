@@ -52,7 +52,7 @@ Please Note depending on OS you may need system package to config specific pytho
   
   Step 5) Replace Directory pointers with your own Directories
   
-  Step 6) Nohup Run Pi_recognition.py and Counter.py ( on Pi )
+  Step 6) Nohup Run Pi_recognition.py  ( on Pi )
   
   </il>
   
@@ -69,7 +69,7 @@ Please Note depending on OS you may need system package to config specific pytho
 
   Step 5) Setup A Gmail account and import into credentials.txt
  
-  Step 6) Nohup Run main.py ( on Server )
+  Step 6) Nohup Run main.py  and Counter.py ( on Server )
   
   </il>
 </p>  
