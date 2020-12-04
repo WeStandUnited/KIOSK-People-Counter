@@ -16,10 +16,10 @@ Hardware Required: Raspberry Pi (Preferably Pi Gen 4)
                    RPI Camera or USB Camera 
                    A offsite computer/ server for video computation
                    
-Software Required: Python 3+
-                   Raspbian ( or any debian based PI distro)
-                   Offsite Computer running debian
-                   nohup
+Software Required: Python 3+,
+                   Raspbian ( or any debian based PI distro),
+                   Offsite Computer running debian,
+                   ,nohup
                    
 Python Dependencies: FlaskForm, werkzeug.utils , wtforms ,request, redirect, render_template , PIL , waitress , datetime , rand , os , imagehash , glob , cv2 ,paramiko ,scp ,imutils , time , enum , face_recognition , numpy , datetime. 
 
