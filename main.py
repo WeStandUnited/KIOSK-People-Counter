@@ -13,8 +13,8 @@ from waitress import serve
 
 #PHOTO_DIRECTORY = "/home/cj/PycharmProjects/ImageTransporter/KIOSK-People-Counter/Photos/"
 #CSV_DIRECTORY = '/home/cj/PycharmProjects/ImageTransporter/KIOSK-People-Counter/pin.csv'
-PHOTO_DIRECTORY ="/home/cchiass2/KIOSK-People-Counter/Website/Photos/"
-CSV_DIRECTORY ="/home/cchiass2/KIOSK-People-Counter/Website/pin.csv"
+PHOTO_DIRECTORY ="/Photos/"
+CSV_DIRECTORY ="pin.csv"
 
 
 def generate_new_pin():
@@ -49,7 +49,7 @@ def write_pin_to_csv(new_pin):
 
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = 'HGV@QpcXu!xHyz2cD7^Dm+@QSaKefUsfgqxHA5ryZ!2D^ZU-Dpsbp?-?Z%?X'
+app.config['SECRET_KEY'] = 'shh'
 class PinForm(FlaskForm):
 
     name = StringField('Name:')
@@ -94,4 +94,3 @@ def form():
 if __name__ == '__main__':
     #app.run(debug=True)
     print("This process has the PID:", os.getpid())
-    serve(app,host='pi.cs.oswego.edu',port=2770,url_scheme='http')
