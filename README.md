@@ -39,6 +39,9 @@ Please Note depending on OS you may need system package to config specific pytho
   Step 3) Set up RSA key between Pi and the Server
   
   Step 4) Replace host in SCPInit functions to point at your host, along with the user name your have an RSA key set up with.
+  
+  Step 5) Replace Directory pointers with your own Directories
+  
   </il>
   
   <b> Setting up Website </b>
@@ -47,6 +50,11 @@ Please Note depending on OS you may need system package to config specific pytho
   Step 1) Replace values in main.py with your host and user name.
   
   Step 2) Choose a port to host the server off of
+  
+  Step 3) Replace Directory pointers with your own Directories
+  
+  Step 4) Replace Secret Key with a Hash of your liking.
+
   
   </il>
 </p>  
