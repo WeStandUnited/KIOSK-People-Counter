@@ -11,10 +11,10 @@ from PIL import Image
 from waitress import serve
 
 
-PHOTO_DIRECTORY = "/home/cj/PycharmProjects/ImageTransporter/KIOSK-People-Counter/Photos/"
-CSV_DIRECTORY = '/home/cj/PycharmProjects/ImageTransporter/KIOSK-People-Counter/pin.csv'
-#PHOTO_DIRECTORY ="/home/cchiass2/KIOSK-People-Counter/Website/Photos/"
-#CSV_DIRECTORY ="/home/cchiass2/KIOSK-People-Counter/Website/pin.csv"
+#PHOTO_DIRECTORY = "/home/cj/PycharmProjects/ImageTransporter/KIOSK-People-Counter/Photos/"
+#CSV_DIRECTORY = '/home/cj/PycharmProjects/ImageTransporter/KIOSK-People-Counter/pin.csv'
+PHOTO_DIRECTORY ="/home/cchiass2/KIOSK-People-Counter/Website/Photos/"
+CSV_DIRECTORY ="/home/cchiass2/KIOSK-People-Counter/Website/pin.csv"
 
 
 def generate_new_pin():
@@ -93,5 +93,5 @@ def form():
     return render_template('form.html', form=form)
 if __name__ == '__main__':
     #app.run(debug=True)
-
+    print("This process has the PID:", os.getpid())
     serve(app,host='pi.cs.oswego.edu',port=2770,url_scheme='http')

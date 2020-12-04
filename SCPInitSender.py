@@ -39,4 +39,4 @@ def pullFile(server_local,username,host,local_file_dump):
 def pullFileBash(local_dump,username,host,server_local_dl):
     os.system("scp -r "+username+"@"+host+":"+server_local_dl+" "+local_dump)
 
-#pullFileBash("/home/cj/Music2","cchiass2","pi.cs.oswego.edu","/home/cchiass2/Music")
+pullFileBash("/home/cj/","cchiass2","pi.cs.oswego.edu","/home/cchiass2/mutt")
