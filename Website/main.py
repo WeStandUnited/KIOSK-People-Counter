@@ -91,6 +91,6 @@ def form():
 
     return render_template('form.html', form=form)
 if __name__ == '__main__':
-    #app.run(debug=True)
+    app.run(debug=True)
 
-    serve(app,host='pi.cs.oswego.edu',port=2770,url_scheme='http')
+    serve(app,host='SERVER',port=99999,url_scheme='http')#CHANGE Portnumber and Server
