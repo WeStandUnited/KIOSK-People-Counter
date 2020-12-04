@@ -31,6 +31,7 @@ Please Note depending on OS you may need system package to config specific pytho
   
   <b> Setting up Raspberry Pi </b>
   <il>
+  
   Step 1) Place Pi in well lit area where you woud like it to count vistors.
   
   Step 2) Power Pi and Connect to network
@@ -42,6 +43,7 @@ Please Note depending on OS you may need system package to config specific pytho
   
   <b> Setting up Website </b>
   <il>
+  
   Step 1) Replace values in main.py with your host and user name.
   
   Step 2) Choose a port to host the server off of
