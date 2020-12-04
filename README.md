@@ -40,7 +40,7 @@ Please Note depending on OS you may need system package to config specific pytho
   Step 4) Replace host in SCPInit functions to point at your host, along with the user name your have an RSA key set up with.
   </il>
   
-    <b> Setting up Website </b>
+  <b> Setting up Website </b>
   <il>
   Step 1) Replace values in main.py with your host and user name.
   
