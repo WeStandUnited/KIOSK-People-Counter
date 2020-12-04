@@ -127,7 +127,7 @@ def bodyDetection():
             WIP
             '''
             try:
-                SCPInitSender.sendFile('Videos/{}.avi'.format(video_name), 'cchiass2', 'pi.cs.oswego.edu', '/home/cchiass2/KIOSK-People-Counter/Videos/')
+                SCPInitSender.sendFile('Videos/{}.avi'.format(video_name), '', '', '/home/username/KIOSK-People-Counter/Videos/')
                 os.system('cd Videos/; rm {}.avi; cd ..'.format(video_name))
                 print("video sent.")
             except:
